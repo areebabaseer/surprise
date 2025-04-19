@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Surprise Gift 🎁</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fff0f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      position: relative;
+    }
+
+    .box-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .gift-box {
+      width: 100%;
+      height: 100%;
+      background: #ff69b4;
+      border-radius: 10px;
+      position: absolute;
+      bottom: 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .lid {
+      width: 100%;
+      height: 40px;
+      background: #d64d94;
+      border-radius: 10px 10px 0 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all 0.8s ease;
+      transform-origin: top center;
+    }
+
+    .lid.open {
+      transform: rotateX(120deg) translateY(-50px);
+    }
+
+    .message {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      text-align: center;
+      font-size: 22px;
+      color: #c71585;
+      max-width: 90%;
+      z-index: 5;
+      opacity: 0;
+      animation: textPop 1s ease forwards;
+      animation-delay: 1s;
+    }
+
+    @keyframes textPop {
+      to {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .flower {
+      font-size: 40px;
+      position: absolute;
+      opacity: 0;
+      animation: floatUp 2s ease forwards;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(30px) scale(0); opacity: 0; }
+      100% { transform: translateY(-100px) scale(1); opacity: 1; }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: absolute;
+      width: 6px;
+      height: 12px;
+      background-color: gold;
+      animation: fall 3s linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0); opacity: 1; }
+      100% { transform: translateY(600px) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="box-container" onclick="openBox()">
+  <div class="lid" id="lid"></div>
+  <div class="gift-box"></div>
+</div>
+
+<!-- Message -->
+<div class="message" id="message">Hey Rafi, GOOD LUCK for your boards 💖<br>Love you always, bestie 🌸</div>
+
+<!-- Flowers (initially hidden) -->
+<div class="flower" id="f1" style="top: 55%; left: 20%;">🌷</div>
+<div class="flower" id="f2" style="top: 60%; left: 35%;">🌼</div>
+<div class="flower" id="f3" style="top: 58%; left: 50%;">🌸</div>
+<div class="flower" id="f4" style="top: 62%; left: 65%;">🌻</div>
+<div class="flower" id="f5" style="top: 59%; left: 80%;">🌷</div>
+<div class="flower" id="f6" style="top: 63%; left: 10%;">🌸</div>
+
+<!-- Confetti (30 falling elements) -->
+<script>
+  for (let i = 0; i < 30; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.animationDelay = Math.random() * 2 + 's';
+    confetti.style.backgroundColor = ['gold', 'hotpink', 'deepskyblue'][Math.floor(Math.random()*3)];
+    document.body.appendChild(confetti);
+  }
+</script>
+
+<script>
+  function openBox() {
+    document.getElementById('lid').classList.add('open');
+
+    // Show message after delay
+    const message = document.getElementById('message');
+    message.style.animation = 'textPop 1s ease forwards';
+    
+    // Animate flowers
+    for (let i = 1; i <= 6; i++) {
+      const flower = document.getElementById('f' + i);
+      flower.style.animationDelay = (0.5 + i * 0.2) + 's';
+      flower.style.opacity = 1;
+      flower.style.animation = 'floatUp 1s ease forwards';
+    }
+
+    // Animate confetti
+    const confettiElements = document.querySelectorAll('.confetti');
+    confettiElements.forEach(c => c.style.opacity = 1);
+  }
+</script>
+
+</body>
+</html>
